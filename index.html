@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Turn what you're curious about into concrete projects, using the heuristics from Paul Graham's essay How to Do Great Work.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Excitingly Ambitious">
+<meta property="og:description" content="Turn what you're curious about into concrete projects, using the heuristics from Paul Graham's essay How to Do Great Work.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232B4AA0'/%3E%3Cpath d='M8 24 L16 8 L24 24' stroke='%23EBEDE7' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Excitingly Ambitious</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+/* Layout: one essay-width column on graph paper. Raw material at top, generated projects as flat index entries beneath it. */
+:root{
+  --paper:#EBEDE7;
+  --card:#F7F8F4;
+  --grid:rgba(25,29,26,.075);
+  --ink:#191D1A;
+  --ink-2:#4C5652;
+  --ink-3:#7E8883;
+  --rule:rgba(25,29,26,.18);
+  --blue:#2B4AA0;
+  --blue-soft:rgba(43,74,160,.09);
+  --rust:#9C4B21;
+  --font-display:"Newsreader",Georgia,"Times New Roman",serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#15181B;
+    --card:#1C2024;
+    --grid:rgba(255,255,255,.045);
+    --ink:#E8EAE5;
+    --ink-2:#AAB3AE;
+    --ink-3:#79837E;
+    --rule:rgba(255,255,255,.15);
+    --blue:#93A9EF;
+    --blue-soft:rgba(147,169,239,.13);
+    --rust:#D98A5A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15181B;
+  --card:#1C2024;
+  --grid:rgba(255,255,255,.045);
+  --ink:#E8EAE5;
+  --ink-2:#AAB3AE;
+  --ink-3:#79837E;
+  --rule:rgba(255,255,255,.15);
+  --blue:#93A9EF;
+  --blue-soft:rgba(147,169,239,.13);
+  --rust:#D98A5A;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:680px;margin:0 auto;padding-inline:20px;padding-block:34px 72px}
+h1,h2,h3{text-wrap:balance;margin:0}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* masthead */
+.eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-family:var(--font-display);font-size:clamp(38px,11vw,60px);font-weight:500;line-height:1.02;letter-spacing:-.02em;margin-top:10px}
+.lede{font-family:var(--font-display);font-size:19px;line-height:1.5;color:var(--ink-2);margin-top:14px;max-width:34em}
+.steps{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:22px;padding-top:16px;border-top:1px solid var(--rule)}
+.step{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-2);display:flex;gap:7px;align-items:baseline}
+.step b{color:var(--blue);font-weight:500}
+
+/* section heads */
+.shead{display:flex;align-items:center;gap:12px;margin:46px 0 4px}
+.shead span{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.shead i{display:block;flex:1;height:1px;background:var(--rule)}
+.snote{color:var(--ink-2);font-size:13.5px;margin:0 0 18px}
+
+/* fields */
+.fields{display:grid;grid-template-columns:1fr;gap:20px}
+@media (min-width:620px){.fields{grid-template-columns:1fr 1fr;gap:22px 24px}}
+.field{min-width:0}
+.field label{display:block;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);font-weight:500}
+.field .hint{display:block;font-size:12.5px;color:var(--ink-3);margin:2px 0 9px;line-height:1.45}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--blue-soft);color:var(--ink);border:1px solid transparent;font-size:13px;padding:4px 6px 4px 10px;max-width:100%}
+.chip span{min-width:0;overflow-wrap:anywhere}
+.chip button{background:none;border:0;color:var(--ink-3);font-family:var(--font-mono);font-size:14px;line-height:1;cursor:pointer;padding:2px 3px}
+.chip button:hover{color:var(--rust)}
+.field input{
+  width:100%;background:var(--card);border:1px solid var(--rule);color:var(--ink);
+  font-family:var(--font-body);font-size:14px;padding:9px 11px;border-radius:2px;
+}
+.field input::placeholder{color:var(--ink-3)}
+
+/* buttons */
+.btn{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--blue);color:var(--paper);border:1px solid var(--blue);border-radius:2px;
+  padding:11px 16px;cursor:pointer;
+}
+.btn.ghost{background:transparent;color:var(--ink-2);border-color:var(--rule)}
+.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+.btn.tiny{padding:6px 10px;font-size:11px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;align-items:center}
+
+/* cards */
+.cards{display:flex;flex-direction:column;gap:14px;margin-top:22px}
+.card{background:var(--card);border:1px solid var(--rule);padding:18px 18px 14px;min-width:0}
+.card .move{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.card .idea{font-family:var(--font-display);font-size:20px;line-height:1.35;margin-top:9px;overflow-wrap:anywhere}
+.card .why{font-size:13.5px;color:var(--ink-2);margin-top:10px;border-left:2px solid var(--rule);padding-left:12px}
+.card .small{font-size:13.5px;color:var(--ink);margin-top:12px;overflow-wrap:anywhere}
+.card .small b{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);font-weight:500;margin-right:8px}
+.card .row{display:flex;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--rule);flex-wrap:wrap}
+.empty{color:var(--ink-3);font-size:13.5px;border:1px dashed var(--rule);padding:18px;text-align:center}
+
+/* kept */
+.kept{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.keptitem{background:var(--card);border:1px solid var(--rule);padding:16px 16px 12px;min-width:0}
+.keptitem .idea{font-family:var(--font-display);font-size:17.5px;line-height:1.38;overflow-wrap:anywhere}
+.checks{display:flex;flex-direction:column;gap:7px;margin-top:13px}
+.checks label{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--ink-2);cursor:pointer;line-height:1.4}
+.checks input{margin:3px 0 0;accent-color:var(--blue);flex:none}
+.verdict{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;padding-top:11px;border-top:1px solid var(--rule);flex-wrap:wrap}
+.verdict p{margin:0;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.04em;color:var(--ink-3)}
+.verdict p.go{color:var(--blue)}
+
+/* stuck */
+details{border-top:1px solid var(--rule);padding:2px 0}
+details:last-of-type{border-bottom:1px solid var(--rule)}
+summary{cursor:pointer;list-style:none;padding:13px 2px;font-size:14.5px;display:flex;gap:12px;align-items:baseline}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--font-mono);color:var(--blue);flex:none}
+details[open] summary::before{content:"–"}
+details p{margin:0 0 15px 24px;font-size:14px;color:var(--ink-2);max-width:40em}
+
+footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-3);line-height:1.6}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">A working tool built on Paul Graham's essay</p>
+    <h1>Excitingly Ambitious</h1>
+    <p class="lede">Curiosity is both the engine and the rudder. Feed it what you already can't stop thinking about, and it will tell you what to work on.</p>
+    <div class="steps">
+      <p class="step"><b>01</b> Pick a field</p>
+      <p class="step"><b>02</b> Get to its frontier</p>
+      <p class="step"><b>03</b> Notice the gaps</p>
+      <p class="step"><b>04</b> Explore the promising ones</p>
+    </div>
+  </header>
+
+  <h2 class="shead"><span>Raw material</span><i></i></h2>
+  <p class="snote" id="samplenote">Showing sample entries so you can see how it works. <button class="btn ghost tiny" id="clearsample" type="button">Clear them</button></p>
+  <div class="fields" id="fields"></div>
+
+  <div class="actions">
+    <button class="btn" id="gen" type="button">Suggest three things</button>
+    <button class="btn ghost" id="reset" type="button">Clear everything</button>
+  </div>
+
+  <h2 class="shead"><span>Try this</span><i></i></h2>
+  <div class="cards" id="cards"></div>
+
+  <h2 class="shead"><span>Kept</span><i></i></h2>
+  <p class="snote">Four tests, taken from the essay. Three or four yeses means stop deliberating and start.</p>
+  <div class="kept" id="kept"></div>
+
+  <h2 class="shead"><span>When it isn't going well</span><i></i></h2>
+  <div id="stuck"></div>
+
+  <footer>
+    Every line here is a paraphrase, not a quotation. Read the original: <a href="https://paulgraham.com/greatwork.html" target="_blank" rel="noopener">How to Do Great Work</a>, Paul Graham, July 2023.<br>
+    Your entries stay in this browser.
+  </footer>
+</div>
+
+<script>
+/* ---------------------------------------------------------------
+   ANALYTICS — paste your GoatCounter code between the quotes.
+   Sign up at goatcounter.com, pick a code (e.g. "greatwork"),
+   then set:  const GC_SITE = "greatwork";
+   Left empty, nothing loads and no requests are made.
+   Only event names are sent — never what anyone types.
+---------------------------------------------------------------- */
+const GC_SITE="";
+
+(function(){
+  if(!GC_SITE)return;
+  const s=document.createElement("script");
+  s.async=true;
+  s.src="https://gc.zgo.at/count.js";
+  s.setAttribute("data-goatcounter",`https://${GC_SITE}.goatcounter.com/count`);
+  document.head.appendChild(s);
+})();
+
+function track(name,title){
+  try{
+    if(window.goatcounter&&window.goatcounter.count)
+      window.goatcounter.count({path:name,title:title||name,event:true});
+  }catch(e){}
+}
+
+const FIELDS=[
+ {k:"c",label:"Excessively curious about",hint:"Curious to a degree that would bore most other people.",ph:"board game design"},
+ {k:"s",label:"Already near the edge of",hint:"Where you know enough to say precisely what others are missing.",ph:"data analysis"},
+ {k:"b",label:"Seems broken or wrong",hint:"Things everyone around you has trained themselves to ignore.",ph:"online recipe pages"},
+ {k:"q",label:"Questions you never dropped",hint:"Including the ones you first asked as a kid.",ph:"why is the sky red at dusk?"}
+];
+
+const SAMPLE={
+ c:["bread baking","board game design","urban planning"],
+ s:["teaching","data analysis"],
+ b:["online recipe pages","hospital waiting rooms"],
+ q:["why do some songs get stuck in your head?"]
+};
+
+const MOVES=[
+ {id:"frontier",label:"Walk to the frontier",needs:["c"],
+  idea:v=>`Spend a month getting to the working edge of ${v.c} — the place where the people who do it for real still disagree with each other.`,
+  why:"From a distance the edge of a field looks smooth. Up close it turns out to be full of gaps, and you can't see them from anywhere else.",
+  small:v=>`Find the three most recent serious pieces of work in ${v.c} and write one sentence on what each still can't do.`},
+
+ {id:"cross",label:"Carry it across",needs:["s","c"],
+  idea:v=>`Bring a method from ${v.s} into ${v.c}, where nobody is using it.`,
+  why:"Copying something from one field into another is one of the most reliable sources of new ideas, and history is full of people who did it by accident.",
+  small:v=>`Write half a page on what ${v.c} looks like if you model it the way ${v.s} models things.`},
+
+ {id:"strict",label:"Be stricter than everyone",needs:["b"],
+  idea:v=>`Be stricter than anyone else about ${v.b}. Write the most precise account you can of why it's wrong.`,
+  why:"A broken model leaves a trail of clues where it hits reality. Most people look away, because the model is what they think in.",
+  small:v=>`List every symptom of ${v.b} you've been quietly tolerating, then ask what has to be false for all of them at once.`},
+
+ {id:"deadzone",label:"Work the dead zone",needs:["c"],
+  idea:v=>`Name the thing people in ${v.c} are religious about, then build something small that assumes it isn't true.`,
+  why:"Every cherished but mistaken principle is surrounded by valuable ideas nobody explores, because exploring them would contradict it.",
+  small:v=>`Finish this sentence twice: everyone in ${v.c} believes ___, and if that's wrong then ___.`},
+
+ {id:"toy",label:"Build the toy",needs:["c"],
+  idea:v=>`Build something in ${v.c} that people would dismiss as a toy, and ship it this month.`,
+  why:"Being called a toy means it has everything a new idea needs except scale — and scale tends to follow.",
+  small:"Cut the idea until a single evening is enough to make something that actually runs."},
+
+ {id:"own",label:"Make what you want",needs:["c"],
+  idea:v=>`Make the ${v.c} thing you want for yourself, not the one a more sophisticated audience would want.`,
+  why:"The dependable way to make something people want is to make something you want. Your friends have similar tastes, so that's your first audience too.",
+  small:v=>`Write the three things that annoy you most about how you do ${v.c} today.`},
+
+ {id:"oldq",label:"Return to the old question",needs:["q"],
+  idea:v=>`Take another run at this: ${v.q} You know far more now than when you first asked it.`,
+  why:"A lot of great work comes from going back to a question you noticed years earlier and couldn't stop thinking about.",
+  small:"Write down what an answer would even look like. That alone usually moves it."},
+
+ {id:"write",label:"Write to find the gap",needs:["c"],
+  idea:v=>`Write a thousand words explaining ${v.c} to someone who already knows it well.`,
+  why:"Putting ideas into words creates a kind of vacuum that draws the missing one out of you. Some thinking can only be done by writing.",
+  small:"Stop at the first sentence you can't finish honestly. That sentence is the project."},
+
+ {id:"elsewhere",label:"Ask on someone else's behalf",needs:["c"],
+  idea:v=>`Write down three projects in ${v.c} that would be great for someone else to do.`,
+  why:"Your subconscious shoots down your own odd ideas to protect you. It doesn't bother when the idea is for somebody else.",
+  small:"Then notice which of the three you'd be jealous of. That one was always yours."},
+
+ {id:"unfashionable",label:"Take the unfashionable one",needs:["c"],
+  idea:v=>`Find the part of ${v.c} that people say is finished, and assume they're wrong.`,
+  why:"Work people think is fully explored often isn't, and nobody is competing for it. No hype, no hurry, and the old work is usually solid.",
+  small:v=>`Find the best work done in ${v.c} fifteen years ago and ask what it becomes with today's tools.`},
+
+ {id:"prolific",label:"Be prolific on purpose",needs:["c"],
+  idea:v=>`Start five small things in ${v.c} over the next month and plan on four going nowhere.`,
+  why:"You can't have a lot of good ideas without also having a lot of bad ones. The four are what you pay for the fifth.",
+  small:"Pick the first one now and give it ninety minutes instead of a plan."},
+
+ {id:"pair",label:"Two questions, one answer",needs:["q","b"],
+  idea:v=>`Put these side by side: ${v.q} And: what is actually wrong with ${v.b}. Ask whether they're the same question.`,
+  why:"Carrying unanswered questions around is uncomfortable, but noticing that two of them are one question is sometimes the whole discovery.",
+  small:"Write both at the top of a blank page and fill the space underneath."},
+
+ {id:"anomaly",label:"Keep an anomaly log",needs:["c"],
+  idea:v=>`Keep a two-week log of everything in ${v.c} that makes you think: huh, that's odd.`,
+  why:"Your brain wants to smooth over anomalies to keep its model simple. Many discoveries are just somebody refusing to let it.",
+  small:"Start the log tonight with the last odd thing you noticed and didn't chase."},
+
+ {id:"simplest",label:"Simplest thing that could work",needs:["c"],
+  idea:v=>`Take the most ambitious thing you want in ${v.c} and build the simplest version that could possibly work.`,
+  why:"Surprisingly often it does work. When it doesn't, you're started, and the next version is clearer than any plan would have been.",
+  small:"Define the version you could finish by Friday, then cut everything that isn't it."},
+
+ {id:"indulgent",label:"Be self-indulgent",needs:["c"],
+  idea:v=>`If you took a week off serious work to do something purely because it was interesting, you'd spend it on ${v.c}. Treat that as the signal it is.`,
+  why:"The most commonly overlooked problems aren't unfashionable. They just don't seem to matter as much as they do.",
+  small:"Block four hours this week and treat them as real work, not a reward."},
+
+ {id:"tool",label:"Make it unrestrictive",needs:["s","c"],
+  idea:v=>`Make something in ${v.c} that other people can build on, using ${v.s} to make it gratuitously unrestrictive.`,
+  why:"A powerful tool gets used in ways you didn't anticipate, so remove restrictions even when you can't yet see the benefit.",
+  small:"List the three restrictions you'd normally add for safety, and design as if none of them existed."}
+];
+
+const CHECKS=[
+ "Does it seem excitingly ambitious, rather than merely worthy?",
+ "Would you still want it to exist if nobody knew you made it?",
+ "Is it slightly too hard — just past what you know how to do?",
+ "Does it feel novel and obvious at the same time?"
+];
+
+const STUCK=[
+ ["I can't make myself start today","The threshold to begin is higher than the energy to keep going, which means it's fake, and it's fine to tell yourself a lie the same size to get over it. Say you're only going to reread what you have. Five minutes later you'll find something wrong with it and you'll be working."],
+ ["I've been putting this project off for years","That's the dangerous kind, because it disguises itself as work — you're busy, just on something else. The only reliable check is to stop occasionally and ask whether you're working on what you most want to work on."],
+ ["I'm stuck in the middle of it","Switch to easier work for a while, purely to get something done. Morale and good work feed each other in both directions, so the thing that matters most is getting the cycle pointing the right way again."],
+ ["Nobody seems to care about it","The value of an audience doesn't grow with its size. A handful of people who genuinely love what you're doing is enough to sustain you. Where you can, cut out whoever sits between you and them."],
+ ["It feels derivative","Originality is the presence of new ideas, not the absence of old ones. Copying is fine as long as you do it openly — the dangerous kind is the copying you don't notice yourself doing. Just don't copy the flaws, which are always the easiest parts to imitate."],
+ ["I have too many threads open","Don't split attention evenly. Be professionally curious about a few things and idly curious about many more, and let the distribution be steep."],
+ ["I'm out of ideas","Ideas come from working on something slightly too difficult, not from trying to have ideas. Then let your mind wander — on a walk, in the shower — but only after you've fed it real questions. Changing where you are often dislodges something."],
+ ["A setback has knocked the wind out of me","Build backtracking into your expectations rather than treating it as failure; solving anything hard involves some. Never let a setback panic you into backtracking further than you need to, and never abandon the thing that made you want to do this at all."],
+ ["I'm not sure it's important enough","Almost everyone is too conservative about what counts as important, and prestige is a trailing indicator at best. If you do something well enough, you make it prestigious."]
+];
+
+let state={c:[],s:[],b:[],q:[]};
+let sample=true;
+let cards=[];
+let kept=[];
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+function save(){
+  try{
+    localStorage.setItem("ea.state",JSON.stringify({state,kept,sample}));
+  }catch(e){}
+}
+function load(){
+  try{
+    const raw=localStorage.getItem("ea.state");
+    if(!raw)return false;
+    const d=JSON.parse(raw);
+    if(d&&d.state){state=d.state;kept=d.kept||[];sample=!!d.sample;return true}
+  }catch(e){}
+  return false;
+}
+
+function renderFields(){
+  $("fields").innerHTML=FIELDS.map(f=>`
+    <div class="field">
+      <label for="in-${f.k}">${esc(f.label)}</label>
+      <span class="hint">${esc(f.hint)}</span>
+      <div class="chips" id="chips-${f.k}"></div>
+      <input id="in-${f.k}" type="text" autocomplete="off" placeholder="${esc(f.ph)}  ↵">
+    </div>`).join("");
+  FIELDS.forEach(f=>{
+    const inp=$("in-"+f.k);
+    inp.addEventListener("keydown",e=>{
+      if(e.key==="Enter"||e.key===","){e.preventDefault();addChip(f.k,inp.value);inp.value=""}
+    });
+    inp.addEventListener("blur",()=>{if(inp.value.trim()){addChip(f.k,inp.value);inp.value=""}});
+  });
+  renderChips();
+}
+
+function renderChips(){
+  FIELDS.forEach(f=>{
+    const box=$("chips-"+f.k);
+    box.innerHTML=state[f.k].map((v,i)=>
+      `<span class="chip"><span>${esc(v)}</span><button type="button" data-k="${f.k}" data-i="${i}" aria-label="Remove ${esc(v)}">×</button></span>`).join("");
+  });
+  document.querySelectorAll(".chip button").forEach(b=>{
+    b.addEventListener("click",()=>{
+      state[b.dataset.k].splice(+b.dataset.i,1);
+      touched();renderChips();save();
+    });
+  });
+}
+
+function addChip(k,raw){
+  const v=raw.trim().replace(/,+$/,"").trim();
+  if(!v)return;
+  if(state[k].includes(v))return;
+  state[k].push(v);
+  touched();renderChips();save();
+}
+
+function touched(){
+  if(sample){sample=false;$("samplenote").hidden=true}
+}
+
+function eligible(){
+  return MOVES.filter(m=>m.needs.every(n=>state[n]&&state[n].length));
+}
+
+function makeCard(exclude){
+  const pool=eligible().filter(m=>!exclude.includes(m.id));
+  const m=pool.length?pick(pool):(eligible()[0]||null);
+  if(!m)return null;
+  const v={};
+  m.needs.forEach(n=>{v[n]=pick(state[n])});
+  return{
+    uid:Math.random().toString(36).slice(2,9),
+    move:m.id,label:m.label,
+    idea:typeof m.idea==="function"?m.idea(v):m.idea,
+    why:m.why,
+    small:typeof m.small==="function"?m.small(v):m.small
+  };
+}
+
+function generate(silent){
+  const out=[];const used=[];
+  for(let i=0;i<3;i++){
+    const c=makeCard(used);
+    if(!c)break;
+    used.push(c.move);out.push(c);
+  }
+  cards=out;renderCards();
+  if(silent)return;
+  const filled=FIELDS.filter(f=>state[f.k].length).length;
+  track("suggest-"+filled+"-fields","Generated suggestions ("+filled+" of 4 fields filled)");
+}
+
+function renderCards(){
+  const box=$("cards");
+  if(!cards.length){
+    box.innerHTML='<p class="empty">Add at least one thing you\'re curious about, then press Suggest three things.</p>';
+    return;
+  }
+  box.innerHTML=cards.map(c=>`
+    <article class="card">
+      <p class="move">${esc(c.label)}</p>
+      <p class="idea">${esc(c.idea)}</p>
+      <p class="why">${esc(c.why)}</p>
+      <p class="small"><b>Start here</b>${esc(c.small)}</p>
+      <div class="row">
+        <button class="btn tiny" type="button" data-keep="${c.uid}">Keep</button>
+        <button class="btn ghost tiny" type="button" data-swap="${c.uid}">Swap</button>
+      </div>
+    </article>`).join("");
+  box.querySelectorAll("[data-keep]").forEach(b=>b.addEventListener("click",()=>keep(b.dataset.keep)));
+  box.querySelectorAll("[data-swap]").forEach(b=>b.addEventListener("click",()=>swap(b.dataset.swap)));
+}
+
+function swap(uid){
+  const i=cards.findIndex(c=>c.uid===uid);
+  if(i<0)return;
+  const c=makeCard(cards.map(x=>x.move));
+  if(c){cards[i]=c;renderCards()}
+}
+
+function keep(uid){
+  const c=cards.find(x=>x.uid===uid);
+  if(!c)return;
+  kept.unshift({...c,checks:[false,false,false,false]});
+  cards=cards.filter(x=>x.uid!==uid);
+  const extra=makeCard(cards.map(x=>x.move));
+  if(extra)cards.push(extra);
+  renderCards();renderKept();save();
+  track("keep-"+c.move,"Kept: "+c.label);
+}
+
+function verdictFor(n){
+  if(n>=4)return["Start it this week.",true];
+  if(n===3)return["Worth a weekend version.",true];
+  if(n===2)return["Park it, and carry it as a question.",false];
+  return["This is probably fashion, not curiosity.",false];
+}
+
+function renderKept(){
+  const box=$("kept");
+  if(!kept.length){
+    box.innerHTML='<p class="empty">Nothing kept yet. Anything you keep lands here with the four tests attached.</p>';
+    return;
+  }
+  box.innerHTML=kept.map(k=>{
+    const n=k.checks.filter(Boolean).length;
+    const [text,go]=verdictFor(n);
+    return `<article class="keptitem">
+      <p class="move" style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);margin:0">${esc(k.label)}</p>
+      <p class="idea" style="margin:8px 0 0">${esc(k.idea)}</p>
+      <div class="checks">
+        ${CHECKS.map((q,i)=>`<label for="chk-${k.uid}-${i}"><input type="checkbox" id="chk-${k.uid}-${i}" data-uid="${k.uid}" data-i="${i}"${k.checks[i]?" checked":""}>${esc(q)}</label>`).join("")}
+      </div>
+      <div class="verdict">
+        <p class="${go?"go":""}">${n}/4 &nbsp;·&nbsp; ${esc(text)}</p>
+        <button class="btn ghost tiny" type="button" data-drop="${k.uid}">Remove</button>
+      </div>
+    </article>`;
+  }).join("");
+  box.querySelectorAll("input[type=checkbox]").forEach(cb=>{
+    cb.addEventListener("change",()=>{
+      const k=kept.find(x=>x.uid===cb.dataset.uid);
+      if(!k)return;
+      const before=k.checks.filter(Boolean).length;
+      k.checks[+cb.dataset.i]=cb.checked;
+      const after=k.checks.filter(Boolean).length;
+      if(before<3&&after>=3)track("passed-tests","An idea passed 3+ of the four tests");
+      renderKept();save();
+    });
+  });
+  box.querySelectorAll("[data-drop]").forEach(b=>b.addEventListener("click",()=>{
+    kept=kept.filter(x=>x.uid!==b.dataset.drop);renderKept();save();
+  }));
+}
+
+function renderStuck(){
+  $("stuck").innerHTML=STUCK.map(([q,a])=>
+    `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
+}
+
+$("gen").addEventListener("click",()=>generate(false));
+$("clearsample").addEventListener("click",()=>{
+  FIELDS.forEach(f=>{state[f.k]=[]});
+  sample=false;$("samplenote").hidden=true;
+  renderChips();cards=[];renderCards();save();
+});
+$("reset").addEventListener("click",()=>{
+  FIELDS.forEach(f=>{state[f.k]=[]});
+  kept=[];cards=[];sample=false;$("samplenote").hidden=true;
+  renderChips();renderCards();renderKept();save();
+});
+
+if(!load()){state=JSON.parse(JSON.stringify(SAMPLE));sample=true}
+renderFields();
+renderStuck();
+renderKept();
+if(sample)generate(true);else renderCards();
+$("samplenote").hidden=!sample;
+</script>
+</body>
+</html>
