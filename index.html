@@ -154,6 +154,7 @@ summary::-webkit-details-marker{display:none}
 summary::before{content:"+";font-family:var(--font-mono);color:var(--blue);flex:none}
 details[open] summary::before{content:"–"}
 details p{margin:0 0 15px 24px;font-size:14px;color:var(--ink-2);max-width:40em}
+details blockquote{margin:0 0 12px 24px;padding-left:12px;border-left:2px solid var(--blue);font-family:var(--font-display);font-style:italic;font-size:16.5px;line-height:1.4;color:var(--ink);max-width:36em}
 
 footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-3);line-height:1.6}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -194,7 +195,7 @@ footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--rule);font-si
   <div id="stuck"></div>
 
   <footer>
-    Every line here is a paraphrase, not a quotation. Read the original: <a href="https://paulgraham.com/greatwork.html" target="_blank" rel="noopener">How to Do Great Work</a>, Paul Graham, July 2023.<br>
+    Everything here is a paraphrase except the lines set as quotations. Read the original: <a href="https://paulgraham.com/greatwork.html" target="_blank" rel="noopener">How to Do Great Work</a>, Paul Graham, July 2023.<br>
     Your entries stay in this browser.
   </footer>
 </div>
@@ -329,7 +330,8 @@ const CHECKS=[
 ];
 
 const STUCK=[
- ["I can't make myself start today","The threshold to begin is higher than the energy to keep going, which means it's fake, and it's fine to tell yourself a lie the same size to get over it. Say you're only going to reread what you have. Five minutes later you'll find something wrong with it and you'll be working."],
+ ["I can't make myself start today","Starting is almost always harder than continuing. Work has an activation energy, both per day and per project, and since that threshold is higher than the effort it takes to keep going, it's fine to tell yourself a lie the same size to get over it. Graham's own trick is to promise he'll only reread what he has. Five minutes later he's found something that seems wrong or incomplete, and he's working. For a new project, the permissible lie is underestimating how much work it will be — just try to finish what you start, because a lot of the best work happens in what was meant to be the final stage.",
+  ["It's the nature of work, not a flaw in your character.","I'll just read over what I've got so far."]],
  ["I've been putting this project off for years","That's the dangerous kind, because it disguises itself as work — you're busy, just on something else. The only reliable check is to stop occasionally and ask whether you're working on what you most want to work on."],
  ["I'm stuck in the middle of it","Switch to easier work for a while, purely to get something done. Morale and good work feed each other in both directions, so the thing that matters most is getting the cycle pointing the right way again."],
  ["Nobody seems to care about it","The value of an audience doesn't grow with its size. A handful of people who genuinely love what you're doing is enough to sustain you. Where you can, cut out whoever sits between you and them."],
@@ -524,8 +526,8 @@ function renderKept(){
 }
 
 function renderStuck(){
-  $("stuck").innerHTML=STUCK.map(([q,a])=>
-    `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
+  $("stuck").innerHTML=STUCK.map(([q,a,quotes])=>
+    `<details><summary>${esc(q)}</summary>${(quotes||[]).map(x=>`<blockquote>“${esc(x)}”</blockquote>`).join("")}<p>${esc(a)}</p></details>`).join("");
 }
 
 $("gen").addEventListener("click",()=>generate(false));
